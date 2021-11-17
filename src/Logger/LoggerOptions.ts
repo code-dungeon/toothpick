@@ -9,7 +9,7 @@ export interface LoggerOptions {
   namePath?: string;
   levels?: winston.config.AbstractConfigSetLevels;
   silent?: boolean;
-  format?: Array<Format.Interface>;
+  formats?: Array<Format.Interface>;
   level?: string;
   exitOnError?: Function | boolean;
   defaultMeta?: any;

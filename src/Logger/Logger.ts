@@ -35,7 +35,7 @@ export function createLogger(config: LoggerConfig, opts: LoggerOptions): LoggerI
     defaultMeta: getOptionValue(opts.defaultMeta, config.defaultMeta),
     handleExceptions: getOptionValue(opts.handleExceptions, config.handleExceptions),
     exceptionHandlers: getOptionValue(opts.exceptionHandlers, config.exceptionHandlers),
-    format: getFormat(getOptionValue(opts.format, config.formats), opts.name, path),
+    format: getFormat(getOptionValue(opts.formats, config.formats), opts.name, path),
     transports: getOptionValue(opts.transports, config.transports)
   });
 }
