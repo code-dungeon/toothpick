@@ -24,11 +24,6 @@ export class LoggerConfig implements LoggerOptions {
       Format.appname(),
       Format.hostname(),
       Format.pid(),
-      // Format.context((): object => {
-      //   return {
-      //     'correlation-id': ctx['correlation-id']
-      //   };
-      // }),
       Format.json(),
       Format.splat(),
       Format.timestamp()

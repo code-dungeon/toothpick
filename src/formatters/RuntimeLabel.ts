@@ -19,8 +19,11 @@ export abstract class RuntimeLabel<T> {
       const key: string = path[i];
 
       if (i == last) {
-        // should these merge?
-        node[key] = value;
+        if (typeof node[key] === 'object' && typeof value === 'object' && Array.isArray(value) === false) {
+          node[key] = { ...node[key], ...value };
+        } else {
+          node[key] = value;
+        }
       } else {
         node = node[key] = node[key] || {};
       }
