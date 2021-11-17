@@ -2,7 +2,7 @@ import { Formatter, TransformableInfo } from './formatter';
 import { RuntimeLabel } from './RuntimeLabel';
 
 interface GetContextInfo {
-  (): object;
+  (info: TransformableInfo): object;
 }
 
 class ContextInfo extends RuntimeLabel<object> implements Formatter {
@@ -17,7 +17,7 @@ class ContextInfo extends RuntimeLabel<object> implements Formatter {
     let ctxInfo: object;
 
     if (typeof this.getContextInfo === 'function') {
-      ctxInfo = this.getContextInfo();
+      ctxInfo = this.getContextInfo(info);
     }
 
     if (ctxInfo !== undefined && ctxInfo !== null) {

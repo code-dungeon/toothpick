@@ -21,6 +21,7 @@ describe 'ContextInfo', ->
 			@info = {}
 		Then -> @result.should.not.be.undefined
 		And -> @result.should.not.have.property('ctx')
+		And -> @ctxCallback.should.have.been.calledWith(@info)
 
 	describe 'default path', ->
 		Given -> 
@@ -28,6 +29,7 @@ describe 'ContextInfo', ->
 			@info = {}
 		Then -> @result.ctx.should.not.be.undefined
 		And -> @result.ctx.should.equal(@ctxData)
+		And -> @ctxCallback.should.have.been.calledWith(@info)
 
 	describe 'renamed path', ->
 		Given ->
@@ -35,6 +37,7 @@ describe 'ContextInfo', ->
 			@info = {}
 		Then -> @result.ctxData.should.not.be.undefined
 		And -> @result.ctxData.should.equal(@ctxData)
+		And -> @ctxCallback.should.have.been.calledWith(@info)
 
 	describe 'renamed nested path', ->
 		Given -> 
@@ -44,6 +47,7 @@ describe 'ContextInfo', ->
 		And -> @result.ctx.should.be.an('object')
 		And -> @result.ctx.data.should.not.be.undefined
 		And -> @result.ctx.data.should.equal(@ctxData)
+		And -> @ctxCallback.should.have.been.calledWith(@info)
 
 	describe 'existing nested path', ->
 		Given -> 
@@ -55,3 +59,4 @@ describe 'ContextInfo', ->
 		And -> @result.ctx.data.should.equal(@ctxData)
 		And -> @result.ctx.previous.should.not.be.undefined
 		And -> @result.ctx.previous.should.equal('untouched')
+		And -> @ctxCallback.should.have.been.calledWith(@info)

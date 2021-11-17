@@ -19,6 +19,7 @@ export abstract class RuntimeLabel<T> {
       const key: string = path[i];
 
       if (i == last) {
+        // should these merge?
         node[key] = value;
       } else {
         node = node[key] = node[key] || {};
