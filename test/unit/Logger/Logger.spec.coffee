@@ -1,4 +1,5 @@
-create = importModule('Logger/Logger').createLogger
+module = importModule('Logger/Logger')
+create = module.createLogger
 LoggerConfig = importModule('Logger/LoggerConfig').LoggerConfig
 
 describe 'Logger', ->

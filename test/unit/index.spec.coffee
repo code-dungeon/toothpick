@@ -14,3 +14,11 @@ describe 'module', ->
     And -> @logger.info.should.be.a('function')
     And -> @logger.warn.should.be.a('function')
     And -> @logger.error.should.be.a('function')
+
+  describe 'createWithFilename returns a logger', ->
+    Given -> @module = importModule('index').Logger
+    When -> @logger = @module.createWithFilename(__filename)
+    Then -> @logger.should.not.be.undefined
+    And -> @logger.info.should.be.a('function')
+    And -> @logger.warn.should.be.a('function')
+    And -> @logger.error.should.be.a('function')
