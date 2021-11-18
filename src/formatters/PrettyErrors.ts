@@ -11,6 +11,7 @@ interface PrettyError {
   message: string;
 }
 
+const StackSpaceRegex: RegExp = new RegExp(/\n\s*/g);
 export class PrettyErrors extends RuntimeLabel<Array<string>> implements Formatter {
   private stack: boolean;
 
@@ -48,7 +49,7 @@ export class PrettyErrors extends RuntimeLabel<Array<string>> implements Formatt
     const { stack } = this;
 
     if (stack && error.stack) {
-      this.setTransformValue(error.stack.split('\n'), info);
+      this.setTransformValue(error.stack.replace(StackSpaceRegex, '\n').split('\n'), info);
     }
 
     return { errorType: error.constructor.name, message: error.message };
