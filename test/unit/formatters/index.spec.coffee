@@ -46,6 +46,9 @@ describe 'Format', ->
   Then '#pid', -> @Format.pid.should.not.be.undefined
   And -> @Format.pid.should.be.a('function')
 
+  Then '#prettyErrors', -> @Format.prettyErrors.should.not.be.undefined
+  And -> @Format.prettyErrors.should.be.a('function')
+
   Then '#prettyPrint', -> @Format.prettyPrint.should.not.be.undefined
   And -> @Format.prettyPrint.should.be.a('function')
 

@@ -5,6 +5,7 @@ import { createHostname } from './Hostname';
 import { createPid } from './Pid';
 import { createContextInfo } from './ContextInfo';
 import { createLabel } from './Label';
+import { createPrettyErrors } from './PrettyErrors';
 
 export namespace Format {
   export type Interface = LogFormatter;
@@ -22,6 +23,7 @@ export namespace Format {
   export const logstash = winston.format.logstash;
   export const metadata = winston.format.metadata;
   export const ms = winston.format.ms;
+  export const prettyErrors = createPrettyErrors;
   export const padLevels = winston.format.padLevels;
   export const pid = createPid;
   export const prettyPrint = winston.format.prettyPrint;
