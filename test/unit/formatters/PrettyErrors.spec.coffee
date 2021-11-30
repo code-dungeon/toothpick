@@ -3,6 +3,12 @@ create = importModule('formatters/PrettyErrors').createPrettyErrors
 describe 'PrettyErrors', ->
   When -> @result = @prettyErrors.transform(@info)
 
+  describe 'no log', ->
+    Given ->
+      @info = null
+      @prettyErrors = create() 
+    Then -> expect(@result).to.eql(null)
+
   describe 'no error', ->
     Given -> 
       @info = {message: 'something'}

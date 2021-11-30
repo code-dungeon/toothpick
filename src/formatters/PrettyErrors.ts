@@ -22,12 +22,15 @@ export class PrettyErrors extends RuntimeLabel<Array<string>> implements Formatt
 
   public transform(info: TransformableInfo): TransformableInfo {
     this.convertObjectErrors(info, info);
-
     return info;
   }
 
   private convertObjectErrors(info: any, node: any): boolean {
     let errorFound: boolean = false;
+
+    if (node === undefined || node === null) {
+      return false;
+    }
 
     for (const [key, value] of Object.entries(node)) {
       if (value instanceof Error) {
