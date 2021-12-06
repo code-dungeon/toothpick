@@ -1,6 +1,6 @@
 {
   "name": "@code-dungeon/toothpick",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "A general purpose logger",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -11,7 +11,7 @@
   "scripts": {
     "lint": "tslint --project tsconfig.json --format verbose \"src/**/*.ts\"",
     "lint-fix": "tslint --project tsconfig.json --fix --format verbose \"src/**/*.ts\"",
-    "build": "tsc --version && tsc --pretty",
+    "build": "rm -rf dist && tsc --version && tsc --pretty",
     "build:docs": "node_modules/.bin/typedoc --readme none --excludeExternals --excludePrivate --includeDeclarations typings/ --mode file --out docs/html src",
     "build:readme": "node_modules/.bin/typedoc --theme markdown --readme none --excludeExternals --excludePrivate --includeDeclarations typings/ --mode file --out docs/markdown src",
     "test:coverage": "yardstick coverage",

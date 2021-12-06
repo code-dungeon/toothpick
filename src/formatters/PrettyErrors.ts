@@ -9,56 +9,68 @@ interface Options {
 interface PrettyError {
   errorType: string;
   message: string;
+  stack?: Array<string>;
 }
 
 const StackSpaceRegex: RegExp = new RegExp(/\n\s*/g);
-export class PrettyErrors extends RuntimeLabel<Array<string>> implements Formatter {
+
+function safeGetValueFromPropertyOnObject(obj: any, property: string): any {
+  try {
+    return obj[property];
+  }
+  catch (error) {
+    return error;
+  }
+}
+export class PrettyErrors implements Formatter {
   private stack: boolean;
 
-  constructor(stack: boolean = false, path: string = 'stack') {
-    super(path);
+  constructor(stack: boolean = false) {
     this.stack = Boolean(stack);
   }
 
   public transform(info: TransformableInfo): TransformableInfo {
-    this.convertObjectErrors(info, info);
-    return info;
-  }
-
-  private convertObjectErrors(info: any, node: any): boolean {
-    let errorFound: boolean = false;
-
-    if (node === undefined || node === null) {
-      return false;
-    }
-
-    for (const [key, value] of Object.entries(node)) {
-      if (value instanceof Error) {
-        errorFound = true;
-        node[key] = this.convertError(info, value);
-      } else if (typeof value === 'object') {
-        errorFound = this.convertObjectErrors(info, value);
-      }
-
-      if (errorFound) {
-        break;
-      }
-    }
-
-    return errorFound;
-  }
-
-  private convertError(info: any, error: Error): PrettyError {
+    const seen: Set<any> = new Set();
     const { stack } = this;
 
-    if (stack && error.stack) {
-      this.setTransformValue(error.stack.replace(StackSpaceRegex, '\n').split('\n'), info);
+    function visit(child: any): any {
+      if (child === null || typeof child !== 'object') {
+        return child;
+      }
+
+      if (seen.has(child)) {
+        return child;
+      }
+
+      seen.add(child);
+
+      if (Array.isArray(child)) {
+        return child.map(visit);
+      }
+
+      if (child instanceof Error) {
+        const error: PrettyError = {
+          errorType: child.constructor.name,
+          message: child.message
+        };
+
+        if (stack) {
+          error.stack = child.stack.replace(StackSpaceRegex, '\n').split('\n');
+        }
+
+        return error;
+      }
+
+      return Object.getOwnPropertyNames(child).reduce((result: any, key: string) => {
+        result[key] = visit(safeGetValueFromPropertyOnObject(child, key));
+        return result;
+      }, {});
     }
 
-    return { errorType: error.constructor.name, message: error.message };
+    return visit(info);
   }
 }
 
 export function createPrettyErrors(opts: Options = {}): Formatter {
-  return new PrettyErrors(opts.stack, opts.path);
+  return new PrettyErrors(opts.stack);
 }
