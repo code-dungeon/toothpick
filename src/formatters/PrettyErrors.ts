@@ -62,8 +62,8 @@ export class PrettyErrors implements Formatter {
       }
 
       return Object.getOwnPropertyNames(child).reduce((result: any, key: string) => {
-        result[key] = visit(safeGetValueFromPropertyOnObject(child, key));
-        return result;
+        child[key] = visit(safeGetValueFromPropertyOnObject(child, key));
+        return child;
       }, {});
     }
 
