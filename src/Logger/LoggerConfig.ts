@@ -21,17 +21,16 @@ export class LoggerConfig implements LoggerOptions {
     this.silent = false;
     this.level = 'info';
     this.formats = [
-      Format.appname(),
       Format.hostname(),
       Format.pid(),
       Format.json(),
       Format.splat(),
       Format.timestamp()
-    ]
+    ];
     this.transports = [
       new Transport.Console({
         format: Format.json()
       })
-    ]
+    ];
   }
 }

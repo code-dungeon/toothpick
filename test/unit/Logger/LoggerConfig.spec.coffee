@@ -8,7 +8,7 @@ describe 'LoggerConfig', ->
     
     Then '.formats', -> @Config.formats.should.not.be.undefined
     And -> @Config.formats.should.be.an('Array')
-    And -> @Config.formats.should.have.lengthOf(6)
+    And -> @Config.formats.should.have.lengthOf(5)
     
     Then '.transports', -> @Config.transports.should.not.be.undefined
     And -> @Config.transports.should.be.an('Array')

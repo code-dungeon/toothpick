@@ -6,35 +6,35 @@ describe 'PrettyErrors', ->
   describe 'no log', ->
     Given ->
       @info = null
-      @prettyErrors = create() 
+      @prettyErrors = create()
     Then -> expect(@result).to.eql(null)
 
   describe 'no error', ->
-    Given -> 
+    Given ->
       @info = {message: 'something'}
-      @prettyErrors = create() 
+      @prettyErrors = create()
     Then -> @result.should.eql({message: 'something'})
+    And 'doesn\'t mutate original', -> @info.should.not.equal(@result)
 
   describe 'circular object', ->
-    Given -> 
+    Given ->
       @info = {message: 'something'}
       @info.info = @info
-      @prettyErrors = create() 
+      @prettyErrors = create()
     Then -> @result.message.should.eql('something')
 
   describe 'array', ->
-    Given -> 
+    Given ->
       @info = {message: 'something', values:[new Error('something bad happened.')]}
       @info.info = @info
-      @prettyErrors = create() 
+      @prettyErrors = create()
     Then -> @result.message.should.eql('something')
     And -> @result.values[0].errorType.should.equal('Error')
     And -> @result.values[0].message.should.equal('something bad happened.')
 
   describe 'has error', ->
-    
     describe 'top level', ->
-      Given -> 
+      Given ->
         @info = new Error('something bad happened.')
         @prettyErrors = create({stack:true})
       Then -> @result.message.should.equal('something bad happened.')
@@ -43,7 +43,7 @@ describe 'PrettyErrors', ->
 
     describe 'nested', ->
       Given -> @info = { message: 'something', nested: { error: new TypeError('bad happened') }}
-      
+
       describe 'without add stack', ->
         Given -> @prettyErrors = create()
         Then -> @result.message.should.equal('something')
