@@ -1,4 +1,3 @@
-import { RuntimeLabel } from './RuntimeLabel';
 import { Formatter, TransformableInfo } from './formatter';
 
 interface Options {
@@ -62,6 +61,10 @@ export class PrettyErrors implements Formatter {
       }
 
       const keys: Array<any> = [...Object.getOwnPropertyNames(child), ...Object.getOwnPropertySymbols(child)];
+
+      if( keys.length === 0 ){
+        return child;
+      }
 
       return keys.reduce((result: any, key: string) => {
         result[key] = visit(safeGetValueFromPropertyOnObject(child, key));
