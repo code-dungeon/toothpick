@@ -1,6 +1,6 @@
 {
   "name": "@code-dungeon/toothpick",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "A general purpose logger",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
