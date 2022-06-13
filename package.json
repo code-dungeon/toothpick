@@ -1,6 +1,6 @@
 {
   "name": "@code-dungeon/toothpick",
-  "version": "0.0.16",
+  "version": "0.0.18",
   "description": "A general purpose logger",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -9,14 +9,16 @@
     "docs/"
   ],
   "scripts": {
-    "lint": "tslint --project tsconfig.json --format verbose \"src/**/*.ts\"",
-    "lint-fix": "tslint --project tsconfig.json --fix --format verbose \"src/**/*.ts\"",
+    "lint": "eslint 'src/**/*.ts'",
+    "lint:fix": "eslint --fix 'src/**/*.ts'",
     "build": "rm -rf dist && tsc --version && tsc --pretty",
     "build:docs": "node_modules/.bin/typedoc --readme none --excludeExternals --excludePrivate --includeDeclarations typings/ --mode file --out docs/html src",
     "build:readme": "node_modules/.bin/typedoc --theme markdown --readme none --excludeExternals --excludePrivate --includeDeclarations typings/ --mode file --out docs/markdown src",
     "test:coverage": "yardstick coverage",
     "test:mutation": "yardstick mutation",
-    "test:unit": "yardstick unit",
+    "test:unit": "mocha",
+    "test:cov": "nyc --all mocha",
+    "test:cov:report": "nyc --all --reporter=html mocha;node ./scripts/report.js",
     "preversion": "npm run build"
   },
   "peerDependencies": {
@@ -24,25 +26,73 @@
   },
   "devDependencies": {
     "@code-dungeon/commit-format": "^0.0.2",
+    "@code-dungeon/mocha-given": "^0.0.1",
     "@code-dungeon/typescript-lint": "^0.0.1",
-    "@code-dungeon/yardstick": "^0.0.5",
     "@types/node": "^16.11.7",
+    "@typescript-eslint/eslint-plugin": "^5.27.1",
+    "@typescript-eslint/parser": "^5.27.1",
+    "chai": "^4.3.6",
+    "chai-as-promised": "^7.1.1",
+    "chai-properties": "^1.4.0",
     "coffeescript": "^2.6.1",
+    "eslint": "^8.17.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^4.0.0",
     "husky": "^7.0.0",
+    "lint-staged": "^13.0.1",
     "logform": "^2.3.0",
+    "mocha": "^10.0.0",
+    "nyc": "^15.1.0",
+    "opn": "^6.0.0",
+    "prettier": "^2.6.2",
+    "sinon": "^14.0.0",
+    "sinon-chai": "^3.7.0",
     "standard-version": "^9.3.2",
     "ts-node": "^10.4.0",
-    "tslint": "^6.1.3",
     "typedoc": "^0.22.8",
     "typedoc-plugin-markdown": "^3.11.3",
     "typescript": "4.4.4",
     "winston": "^3.3.3",
     "winston-transport": "^4.4.0"
   },
+  "mocha": {
+    "color": true,
+    "diff": true,
+    "exit": true,
+    "fullTrace": true,
+    "inlineDiffs": true,
+    "slow": true,
+    "reporter": "min",
+    "resursive": true,
+    "require": [
+      "coffeescript/register",
+      "ts-node/register",
+      "source-map-support/register",
+      "test/globals.coffee"
+    ],
+    "spec": "test/unit/**/*.spec.coffee",
+    "ui": "@code-dungeon/mocha-given"
+  },
+  "nyc": {
+    "checkCoverage": true,
+    "include": [
+      "src/**/*.ts"
+    ],
+    "reporter": "text-summary",
+    "reporterLcov": true,
+    "branches": 100,
+    "lines": 100,
+    "functions": 100,
+    "statements": 100
+  },
   "config": {
     "cz-customizable": {
       "config": ".github/commit-config.js"
     }
+  },
+  "lint-staged": {
+    "*.{ts,js,css,md}": "prettier --write"
   },
   "repository": {
     "type": "git",
@@ -52,6 +102,5 @@
   "directories": {
     "doc": "docs",
     "test": "test"
-  },
-  "dependencies": {}
+  }
 }

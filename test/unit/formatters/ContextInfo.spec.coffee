@@ -1,14 +1,14 @@
-create = importModule('formatters/ContextInfo').createContextInfo
+create = importModule('src/formatters/ContextInfo').createContextInfo
 os = require('os')
 
 describe 'ContextInfo', ->
-  Given -> 
+  Given ->
     @ctxData = {'correlation-id':'123'}
     @ctxCallback = stub().returns(@ctxData)
   When -> @result = @ContextInfo.transform(@info)
 
   describe 'missing getContextInfo', ->
-    Given -> 
+    Given ->
       @ContextInfo = create()
       @info = {}
     Then -> @result.should.not.be.undefined
@@ -24,7 +24,7 @@ describe 'ContextInfo', ->
     And -> @ctxCallback.should.have.been.calledWith(@info)
 
   describe 'default path', ->
-    Given -> 
+    Given ->
       @ContextInfo = create(@ctxCallback)
       @info = {}
     Then -> @result.ctx.should.not.be.undefined
@@ -40,7 +40,7 @@ describe 'ContextInfo', ->
     And -> @ctxCallback.should.have.been.calledWith(@info)
 
   describe 'renamed nested path', ->
-    Given -> 
+    Given ->
       @ContextInfo = create(@ctxCallback, 'ctx.data')
       @info = {}
     Then -> @result.ctx.should.not.be.undefined
@@ -50,7 +50,7 @@ describe 'ContextInfo', ->
     And -> @ctxCallback.should.have.been.calledWith(@info)
 
   describe 'existing nested path', ->
-    Given -> 
+    Given ->
       @ContextInfo = create(@ctxCallback, 'ctx.data')
       @info = {ctx:{previous:'untouched'}}
     Then -> @result.ctx.should.not.be.undefined

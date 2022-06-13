@@ -8,6 +8,6 @@ class Hostname extends Label<string> {
   }
 }
 
-export function createHostname(path: string = 'hostname'): Formatter {
+export function createHostname(path = 'hostname'): Formatter {
   return new Hostname(path);
 }

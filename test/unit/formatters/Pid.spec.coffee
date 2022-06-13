@@ -1,4 +1,4 @@
-create = importModule('formatters/Pid').createPid
+create = importModule('src/formatters/Pid').createPid
 os = require('os')
 
 describe 'Pid', ->
@@ -6,21 +6,21 @@ describe 'Pid', ->
 	When -> @result = @pid.transform(@info)
 
 	describe 'default path', ->
-		Given -> 
+		Given ->
 			@pid = create()
 			@info = {}
 		Then ->  @result.pid.should.not.be.undefined
 		And -> @result.pid.should.equal(@processId)
 
 	describe 'renamed path', ->
-		Given -> 
+		Given ->
 			@pid = create('process')
 			@info = {}
 		Then -> @result.process.should.not.be.undefined
 		And -> @result.process.should.equal(@processId)
 
 	describe 'renamed nested path', ->
-		Given -> 
+		Given ->
 			@pid = create('process.id')
 			@info = {}
 		Then -> @result.process.should.not.be.undefined
@@ -29,7 +29,7 @@ describe 'Pid', ->
 		And -> @result.process.id.should.equal(@processId)
 
 	describe 'existing nested path', ->
-		Given -> 
+		Given ->
 			@pid = create('process.id')
 			@info = {process:{previous:'untouched'}}
 		Then -> @result.process.should.not.be.undefined

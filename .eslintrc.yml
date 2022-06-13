@@ -1,0 +1,25 @@
+env:
+  node: true
+  commonjs: true
+  es2021: true
+  mocha: true
+extends:
+  - eslint:recommended
+  - plugin:@typescript-eslint/eslint-recommended
+  - plugin:@typescript-eslint/recommended
+  - prettier
+parser: '@typescript-eslint/parser'
+plugins:
+  - '@typescript-eslint'
+  - 'prettier'
+rules:
+  no-case-declarations: warn
+  no-extra-semi: warn
+  no-fallthrough: warn
+  no-inner-declarations: warn
+  no-mixed-spaces-and-tabs: warn
+  no-unreachable: warn
+  no-useless-escape: warn
+  spaced-comment:
+    - error
+    - always

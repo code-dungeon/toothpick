@@ -13,9 +13,9 @@ export abstract class RuntimeLabel<T> {
     const last: number = length - 1;
 
     // change to indexable type
-    let node: any = info;
+    let node: TransformableInfo = info;
 
-    for (let i: number = 0; i < length; i++) {
+    for (let i = 0; i < length; i++) {
       const key: string = path[i];
 
       if (i == last) {
@@ -32,5 +32,6 @@ export abstract class RuntimeLabel<T> {
     return info;
   }
 
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   public abstract transform(info: TransformableInfo, opts?: any): TransformableInfo;
 }

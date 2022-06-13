@@ -7,6 +7,7 @@ import { createContextInfo } from './ContextInfo';
 import { createLabel } from './Label';
 import { createPrettyErrors } from './PrettyErrors';
 
+/* eslint-disable-next-line @typescript-eslint/no-namespace */
 export namespace Format {
   export type Interface = LogFormatter;
   export const align = winston.format.align;

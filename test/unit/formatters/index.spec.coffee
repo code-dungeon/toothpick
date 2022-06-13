@@ -1,9 +1,9 @@
 describe 'Format', ->
-  When -> @Format = importModule('formatters').Format
-  
+  When -> @Format = importModule('src/formatters').Format
+
   Then '#align', -> @Format.align.should.not.be.undefined
   And -> @Format.align.should.be.a('function')
-    
+
   Then '#appname', -> @Format.appname.should.not.be.undefined
   And -> @Format.appname.should.be.a('function')
 

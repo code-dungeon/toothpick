@@ -7,6 +7,6 @@ class Pid extends Label<number> {
   }
 }
 
-export function createPid(path: string = 'pid'): Formatter {
+export function createPid(path = 'pid'): Formatter {
   return new Pid(path);
 }

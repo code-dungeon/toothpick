@@ -1,5 +1,5 @@
 describe 'Transports', ->
-	When -> @Transport = importModule('transports').Transport
+	When -> @Transport = importModule('src/transports').Transport
 
 	describe '#Console', ->
 		Then ->

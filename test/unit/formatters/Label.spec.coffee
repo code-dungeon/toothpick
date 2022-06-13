@@ -1,4 +1,4 @@
-create = importModule('formatters/Label').createLabel
+create = importModule('src/formatters/Label').createLabel
 os = require('os')
 
 describe 'Label', ->
@@ -6,14 +6,14 @@ describe 'Label', ->
   When -> @result = @label.transform(@info)
 
   describe 'top level path', ->
-    Given -> 
+    Given ->
       @label = create(@value, 'label')
       @info = {}
     Then -> @result.label.should.not.be.undefined
     And -> @result.label.should.equal(@value)
 
   describe 'nested path', ->
-    Given -> 
+    Given ->
       @label = create(@value, 'label.nested')
       @info = {}
     Then -> @result.label.should.not.be.undefined
@@ -22,7 +22,7 @@ describe 'Label', ->
     And -> @result.label.nested.should.equal(@value)
 
   describe 'existing nested path', ->
-    Given -> 
+    Given ->
       @label = create(@value, 'label.nested')
       @info = {label:{previous:'untouched'}}
     Then -> @result.label.should.not.be.undefined
@@ -35,7 +35,7 @@ describe 'Label', ->
   describe 'exiting nested object', ->
     describe 'with array', ->
       Given ->
-        @value = [1,2] 
+        @value = [1,2]
         @label = create(@value, 'label.nested')
         @info = {label:{nested:{}}}
       Then -> @result.label.should.not.be.undefined

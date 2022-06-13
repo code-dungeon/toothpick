@@ -11,9 +11,12 @@ export interface LoggerOptions {
   silent?: boolean;
   formats?: Array<Format.Interface>;
   level?: string;
+  /* eslint-disable-next-line */
   exitOnError?: Function | boolean;
+  /* eslint-disable-next-line */
   defaultMeta?: any;
   transports?: Array<Transport.Transporter>;
   handleExceptions?: boolean;
+  /* eslint-disable-next-line */
   exceptionHandlers?: any;
 }

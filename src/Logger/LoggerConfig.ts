@@ -9,10 +9,13 @@ export class LoggerConfig implements LoggerOptions {
   public levels: winston.config.AbstractConfigSetLevels;
   public silent: boolean;
   public level: string;
+  /* eslint-disable-next-line */
   public exitOnError: Function | boolean;
+  /* eslint-disable-next-line */
   public defaultMeta: any;
   public transports: Array<Transport.Transporter>;
   public handleExceptions?: boolean;
+  /* eslint-disable-next-line */
   public exceptionHandlers?: any;
   public formats: Array<Format.Interface>;
 

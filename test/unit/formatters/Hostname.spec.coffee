@@ -1,4 +1,4 @@
-create = importModule('formatters/Hostname').createHostname
+create = importModule('src/formatters/Hostname').createHostname
 os = require('os')
 
 describe 'Hostname', ->
@@ -6,21 +6,21 @@ describe 'Hostname', ->
 	When -> @result = @hostname.transform(@info)
 
 	describe 'default path', ->
-		Given ->  
+		Given ->
 			@hostname = create()
 			@info = {}
 		Then -> @result.hostname.should.not.be.undefined
 		And -> @result.hostname.should.equal(@name)
 
 	describe 'renamed path', ->
-		Given -> 
+		Given ->
 			@hostname = create('host')
 			@info = {}
 		Then -> @result.host.should.not.be.undefined
 		And -> @result.host.should.equal(@name)
 
 	describe 'renamed nested path', ->
-		Given -> 
+		Given ->
 			@hostname = create('host.hostname')
 			@info = {}
 		Then -> @result.host.should.not.be.undefined
@@ -29,7 +29,7 @@ describe 'Hostname', ->
 		And -> @result.host.hostname.should.equal(@name)
 
 	describe 'existing nested path', ->
-		Given -> 
+		Given ->
 			@hostname = create('host.hostname')
 			@info = {host:{previous:'untouched'}}
 		Then ->  @result.host.should.not.be.undefined

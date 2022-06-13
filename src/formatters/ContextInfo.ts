@@ -28,6 +28,6 @@ class ContextInfo extends RuntimeLabel<object> implements Formatter {
   }
 }
 
-export function createContextInfo(getContextInfo: GetContextInfo, path: string = 'ctx') {
+export function createContextInfo(getContextInfo: GetContextInfo, path = 'ctx') {
   return new ContextInfo(getContextInfo, path);
 }

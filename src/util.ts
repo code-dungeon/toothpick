@@ -7,14 +7,16 @@ export function getPkgJsonDir(): string {
 
   let pkgJsonPath: string;
 
-  for (let pathToTest of module.paths) {
+  for (const pathToTest of module.paths) {
     try {
       const pathDir: string = dirname(pathToTest);
       accessSync(pathDir, constants.F_OK);
       accessSync(path.resolve(pathDir, 'package.json'), constants.F_OK);
       pkgJsonPath = pathDir;
     }
-    catch (e) { }
+    catch (e) {
+      // move on, not package.json here
+    }
   }
 
   return pkgJsonPath;

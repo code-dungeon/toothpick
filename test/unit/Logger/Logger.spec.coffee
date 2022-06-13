@@ -1,13 +1,13 @@
-module = importModule('Logger/Logger')
+module = importModule('src/Logger/Logger')
 create = module.createLogger
-LoggerConfig = importModule('Logger/LoggerConfig').LoggerConfig
+LoggerConfig = importModule('src/Logger/LoggerConfig').LoggerConfig
 
 describe 'Logger', ->
   Given -> @Config = new LoggerConfig()
   When -> @logger = create(@Config, @opts)
 
   describe 'defaults', ->
-    Given -> @opts = {}  
+    Given -> @opts = {}
     Then -> @logger.should.not.be.undefined
     And -> @logger.info.should.be.a('function')
     And -> @logger.warn.should.be.a('function')

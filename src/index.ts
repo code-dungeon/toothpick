@@ -7,6 +7,7 @@ import { getPkgJsonDir } from './util';
 
 const config: LoggerConfig = new LoggerConfig();
 
+/* eslint-disable-next-line @typescript-eslint/no-namespace */
 export namespace Logger {
   export type Interface = LoggerInterface;
   export type Options = LoggerOptions;
@@ -16,12 +17,12 @@ export namespace Logger {
   export const Transport = transport;
   export function create(opts: LoggerOptions = {}): LoggerInterface {
     return createLogger(config, opts);
-  };
+  }
   export function createWithFilename(filename: string, opts: LoggerOptions = {}): LoggerInterface {
     const root: string = getPkgJsonDir();
     let name = filename.replace(`${root}/`, '');
     name = name.substr(0, name.lastIndexOf('.')) || name;
 
     return createLogger(config, { ...opts, name });
-  };
+  }
 }

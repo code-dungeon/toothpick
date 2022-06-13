@@ -1,25 +1,25 @@
-create = importModule('formatters/Appname').createAppname
+create = importModule('src/formatters/Appname').createAppname
 
 describe 'Appname', ->
 	Given -> @name = '@code-dungeon/toothpick'
 	When -> @result = @appname.transform(@info)
 
 	describe 'default path', ->
-		Given ->  
+		Given ->
 			@appname = create()
 			@info = {}
 		Then -> @result.app.should.not.be.undefined
 		And -> @result.app.should.equal(@name)
 
 	describe 'renamed path', ->
-		Given -> 
+		Given ->
 			@appname = create('appname')
 			@info = {}
 		Then -> @result.appname.should.not.be.undefined
 		And -> @result.appname.should.equal(@name)
 
 	describe 'renamed nested path', ->
-		Given -> 
+		Given ->
 			@appname = create('app.name')
 			@info = {}
 		Then -> @result.app.should.not.be.undefined
@@ -28,7 +28,7 @@ describe 'Appname', ->
 		And -> @result.app.name.should.equal(@name)
 
 	describe 'existing nested path', ->
-		Given -> 
+		Given ->
 			@appname = create('app.name')
 			@info = {app:{previous:'untouched'}}
 		Then ->  @result.app.should.not.be.undefined

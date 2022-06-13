@@ -1,4 +1,4 @@
-create = importModule('formatters/PrettyErrors').createPrettyErrors
+create = importModule('src/formatters/PrettyErrors').createPrettyErrors
 
 describe 'PrettyErrors', ->
   When -> @result = @prettyErrors.transform(@info)
@@ -38,6 +38,42 @@ describe 'PrettyErrors', ->
     Then -> @result.message.should.eql('something')
     And -> @result.values[0].errorType.should.equal('Error')
     And -> @result.values[0].message.should.equal('something bad happened.')
+
+  describe 'has function', ->
+    Given ->
+      @info = { message: 'something', func: -> }
+      @prettyErrors = create()
+    Then -> expect(@result.func).to.be.undefined
+
+  describe 'has toJSON', ->
+    describe 'returns', ->
+      Given ->
+        @info = { message: 'something', toJSON: -> 'else' }
+        @prettyErrors = create()
+      Then -> @result.should.equal('else')
+    describe 'throws error', ->
+      Given ->
+        @info = { message: 'something', toJSON: -> throw new RangeError('some error') }
+        @prettyErrors = create()
+      Then -> @result.should.eql({ errorType: 'RangeError', message: 'some error' })
+
+
+  describe 'has no keys', ->
+    Given ->
+      @info = { message: 'something', nested: {} }
+      @prettyErrors = create()
+    Then -> @result.message.should.equal('something')
+    And -> expect(@result.nested).to.be.undefined
+
+  describe 'getter throw returns pretty error', ->
+    Given ->
+      @info = { something: 'works' }
+      Object.defineProperties(@info, { somekey: { enumerable: true, get: ->
+        throw new TypeError('dang')
+        } })
+      @prettyErrors = create()
+    Then -> @result.something.should.equal('works')
+    And -> @result.somekey.should.eql({ errorType: 'TypeError', message: 'dang' })
 
   describe 'has error', ->
     describe 'top level', ->
