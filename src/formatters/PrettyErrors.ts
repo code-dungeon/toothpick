@@ -51,49 +51,74 @@ export class PrettyErrors implements Formatter {
     }
   }
 
-  private visit(seen: Set<any>, child: any): any {
+  private toJSON(seen: Map<any, any>, child: any) {
+    let result: any;
+    try{
+      result = child.toJSON();
+    }catch( error ) {
+      result = this.toPrettyError(error);
+    }
+    seen.set(child, result);
+
+    return result;
+  }
+
+  private fromArray(seen: Map<any, any>, child:Array<any>){
+    const {length} = child;
+    const array: Array<any> = [];
+    seen.set(child, array);
+
+    for( let i = 0; i < length; ++i){
+      array.push(this.visit(seen, child[i]));
+    }
+
+    return array;
+  }
+
+  private visit(seen: Map<any, any>, child: any): any {
+    if (seen.has(child)) {
+      return seen.get(child);
+    }
+
     if (child === undefined || child === null || typeof child !== 'object') {
       return child;
     }
 
-    if (seen.has(child)) {
-      return child;
-    }
-
-    seen.add(child);
-
     if (Array.isArray(child)) {
-      return child.map(this.visit.bind(this, seen));
+      return this.fromArray(seen, child);
     }
 
     if( typeof child.toJSON === 'function' ){
-      try{
-        return child.toJSON();
-      } catch(error) {
-        return this.toPrettyError(error);
-      }
+      return this.toJSON(seen, child);
     }
 
     if (child instanceof Error) {
-      return this.toPrettyError(child);
+      const error = this.toPrettyError(child);
+      seen.set(child, error);
+      return error;
     }
 
     const keys: Array<any> = Object.keys(child);
     if( keys.length === 0 ){
-      return undefined;
+      seen.set(child, child);
+      return child;
     }
 
+    const copy = {};
+    seen.set(child, copy);
     return keys.reduce((result: any, key: string) => {
       const value = this.safeGetValueFromPropertyOnObject(child, key);
       result[key] = this.visit(seen, value);
       return result;
-    }, {});
+    }, copy);
   }
 
   public transform(info: TransformableInfo): TransformableInfo {
-    const seen: Set<any> = new Set();
+    const seen: Map<any, any> = new Map();
 
-    return this.visit(seen, info);
+    info.message = this.visit(seen, info.message);
+
+    return info;
   }
 }
 

@@ -7,7 +7,7 @@ export function getPkgJsonDir(): string {
 
   let pkgJsonPath: string;
 
-  for (const pathToTest of module.paths) {
+  for (let pathToTest of module.paths) {
     try {
       const pathDir: string = dirname(pathToTest);
       accessSync(pathDir, constants.F_OK);
